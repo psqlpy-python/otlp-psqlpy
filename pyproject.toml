@@ -56,18 +56,6 @@ multi_line_output = 3
 [tool.pytest.ini_options]
 log_level = 'INFO'
 
-[tool.coverage.run]
-omit = [
-    "taskiq/__main__.py",
-    "taskiq/abc/cmd.py",
-    "taskiq/cli/scheduler/args.py",
-    "taskiq/cli/scheduler/cmd.py",
-    "taskiq/cli/utils.py",
-    "taskiq/cli/worker/args.py",
-    "taskiq/cli/worker/async_task_runner.py",
-    "taskiq/cli/worker/cmd.py",
-]
-
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
@@ -135,6 +123,3 @@ ignore-decorators = ["typing.overload"]
 
 [tool.ruff.lint.pylint]
 allow-magic-value-types = ["int", "str", "float"]
-
-[tool.ruff.lint.flake8-bugbear]
-extend-immutable-calls = ["taskiq_dependencies.Depends", "taskiq.TaskiqDepends"]
