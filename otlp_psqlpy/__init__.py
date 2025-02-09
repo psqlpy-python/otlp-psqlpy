@@ -3,9 +3,10 @@ import typing as t
 
 import psqlpy
 import wrapt  # type: ignore[import-untyped]
-
 from opentelemetry import trace
-from opentelemetry.instrumentation.instrumentor import BaseInstrumentor  # type: ignore[attr-defined]
+from opentelemetry.instrumentation.instrumentor import (
+    BaseInstrumentor,  # type: ignore[attr-defined]
+)
 from opentelemetry.instrumentation.utils import unwrap
 from opentelemetry.semconv.trace import (
     DbSystemValues,
@@ -14,9 +15,9 @@ from opentelemetry.semconv.trace import (
 )
 from opentelemetry.trace import SpanKind
 from opentelemetry.trace.status import Status, StatusCode
+
 from otlp_psqlpy.package import _instruments
 from otlp_psqlpy.version import __version__
-
 
 CONNECTION_METHODS = [
     "execute",
@@ -51,7 +52,12 @@ CURSOR_METHODS = [
 ]
 
 
-def _construct_span(instance, query, parameters, prepared=None) -> dict:
+def _construct_span(
+    instance: psqlpy.Connection | psqlpy.Transaction | psqlpy.Cursor,
+    query: str,
+    parameters: t.Sequence[t.Any],
+    prepared: bool | None = None,
+) -> dict[str, t.Any]:
     """Get network and database attributes from instance."""
     span_attributes = {
         SpanAttributes.DB_SYSTEM: DbSystemValues.POSTGRESQL.value,
@@ -108,17 +114,19 @@ def _retrieve_parameter_from_args_or_kwargs(
 
 
 class PSQLPyPGInstrumentor(BaseInstrumentor):
+    """Instrumentor for PSQLPy."""
+
     _leading_comment_remover = re.compile(r"^/\*.*?\*/")
     _tracer = None
 
-    def __init__(self, capture_parameters=False):
+    def __init__(self, capture_parameters: bool = False) -> None:
         super().__init__()
         self.capture_parameters = capture_parameters
 
-    def instrumentation_dependencies(self) -> t.Collection[str]:
+    def instrumentation_dependencies(self) -> t.Collection[str]:  # noqa: D102
         return _instruments
 
-    def _instrument(self, **kwargs):
+    def _instrument(self, **kwargs: t.Any) -> None:
         tracer_provider = kwargs.get("tracer_provider")
         self._tracer = trace.get_tracer(
             __name__,
@@ -148,7 +156,7 @@ class PSQLPyPGInstrumentor(BaseInstrumentor):
                 self._do_cursor_execute,
             )
 
-    def _uninstrument(self, **__):
+    def _uninstrument(self, **__: t.Any) -> None:
         for cls, methods in [
             (
                 psqlpy.Connection,
