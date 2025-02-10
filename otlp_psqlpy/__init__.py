@@ -76,14 +76,18 @@ def _construct_span(
 
     if hosts:
         span_attributes[SpanAttributes.SERVER_ADDRESS] = ", ".join(hosts)
-        span_attributes[SpanAttributes.SERVER_PORT] = ", ".join(ports)
+        span_attributes[SpanAttributes.SERVER_PORT] = ", ".join(
+            [str(port) for port in ports]
+        )
         span_attributes[SpanAttributes.NETWORK_TRANSPORT] = (
             NetTransportValues.IP_TCP.value
         )
 
     elif host_addrs:
         span_attributes[SpanAttributes.SERVER_ADDRESS] = ", ".join(host_addrs)
-        span_attributes[SpanAttributes.SERVER_PORT] = ", ".join(ports)
+        span_attributes[SpanAttributes.SERVER_PORT] = ", ".join(
+            [str(port) for port in ports]
+        )
         span_attributes[SpanAttributes.NETWORK_TRANSPORT] = (
             NetTransportValues.IP_TCP.value
         )
