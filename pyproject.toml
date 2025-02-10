@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "otlp-psqlpy"
-version = "0.1.2"
+version = "0.1.3"
 description = ""
 authors = ["chandr-andr (Kiselev Aleksandr) <chandr@chandr.net>"]
 readme = "README.md"
