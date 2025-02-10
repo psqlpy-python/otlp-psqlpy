@@ -53,10 +53,10 @@ CURSOR_METHODS = [
 
 
 def _construct_span(
-    instance: psqlpy.Connection | psqlpy.Transaction | psqlpy.Cursor,
+    instance: t.Union[psqlpy.Connection, psqlpy.Transaction, psqlpy.Cursor],
     query: str,
     parameters: t.Sequence[t.Any],
-    prepared: bool | None = None,
+    prepared: t.Optional[bool] = None,
 ) -> dict[str, t.Any]:
     """Get network and database attributes from instance."""
     span_attributes = {
