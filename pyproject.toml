@@ -22,6 +22,7 @@ classifiers = [
     "Topic :: System :: Networking",
     "Development Status :: 3 - Alpha",
 ]
+
 keywords = ["psqlpy", "postgres", "async"]
 
 [tool.poetry.dependencies]
