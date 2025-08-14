@@ -30,7 +30,7 @@ python = "^3.9"
 opentelemetry-exporter-otlp = "^1.30.0"
 opentelemetry-sdk = "^1.30.0"
 opentelemetry-instrumentation = "^0.51b0"
-psqlpy = "^0.9.1"
+psqlpy = "0.11.6"
 
 
 [tool.poetry.group.dev.dependencies]

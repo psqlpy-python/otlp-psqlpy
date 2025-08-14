@@ -28,27 +28,26 @@ CONNECTION_METHODS = [
     "fetch_val",
 ]
 TRANSACTION_METHODS = [
+    "begin",
     "commit",
     "rollback",
     "execute",
     "execute_batch",
+    "execute_many",
     "fetch",
     "fetch_row",
     "fetch_val",
-    "execute_many",
+    "pipeline",
+    "create_savepoint",
+    "rollback_savepoint",
+    "release_savepoint",
 ]
 CURSOR_METHODS = [
     "__anext__",
-    "fetch",
-    "fetch_next",
-    "fetch_prior",
-    "fetch_first",
-    "fetch_last",
-    "fetch_absolute",
-    "fetch_relative",
-    "fetch_forward_all",
-    "fetch_backward",
-    "fetch_backward_all",
+    "execute",
+    "fetchone",
+    "fetchmany",
+    "fetchall",
 ]
 
 
@@ -229,7 +228,7 @@ class PSQLPyPGInstrumentor(BaseInstrumentor):
 
         stop = False
         with self._tracer.start_as_current_span(
-            f"CURSOR: {instance.cursor_name}",
+            f"CURSOR",
             kind=SpanKind.CLIENT,
         ) as span:
             if span.is_recording():
