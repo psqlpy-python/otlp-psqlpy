@@ -1,5 +1,6 @@
 import re
 import typing as t
+from collections.abc import Awaitable, Mapping, Sequence
 
 import psqlpy
 import wrapt  # type: ignore[import-untyped]
@@ -171,7 +172,13 @@ class PSQLPyPGInstrumentor(BaseInstrumentor):
             for method_name in methods:
                 unwrap(cls, method_name)
 
-    async def _do_execute(self, func, instance, args, kwargs):
+    async def _do_execute(
+        self,
+        func: t.Callable[..., Awaitable[t.Any]],
+        instance: t.Union[psqlpy.Connection, psqlpy.Transaction, psqlpy.Cursor],
+        args: Sequence[t.Any],
+        kwargs: Mapping[str, t.Any],
+    ) -> t.Any:
         exception = None
         params = getattr(instance, "_params", {})
         name = args[0] if args else params.get("database", "postgresql")
@@ -182,20 +189,20 @@ class PSQLPyPGInstrumentor(BaseInstrumentor):
         except IndexError:
             name = ""
 
-        with self._tracer.start_as_current_span(
+        with self._tracer.start_as_current_span(  # type: ignore[union-attr]
             name,
             kind=SpanKind.CLIENT,
         ) as span:
             if span.is_recording():
                 span_attributes = _construct_span(
                     instance,
-                    _retrieve_parameter_from_args_or_kwargs(
+                    _retrieve_parameter_from_args_or_kwargs(  # type: ignore[arg-type]
                         parameter_name="querystring",
                         parameter_index=0,
                         args=args,
                         kwargs=kwargs,
                     ),
-                    _retrieve_parameter_from_args_or_kwargs(
+                    _retrieve_parameter_from_args_or_kwargs(  # type: ignore[arg-type]
                         parameter_name="parameters",
                         parameter_index=1,
                         args=args,
@@ -222,12 +229,18 @@ class PSQLPyPGInstrumentor(BaseInstrumentor):
 
         return result
 
-    async def _do_cursor_execute(self, func, instance, args, kwargs):
+    async def _do_cursor_execute(
+        self,
+        func: t.Callable[..., Awaitable[t.Any]],
+        instance: psqlpy.Cursor,
+        args: Sequence[t.Any],
+        kwargs: Mapping[str, t.Any],
+    ) -> t.Any:
         """Wrap cursor based functions. For every call this will generate a new span."""
         exception = None
 
         stop = False
-        with self._tracer.start_as_current_span(
+        with self._tracer.start_as_current_span(  # type: ignore[union-attr]
             "CURSOR",
             kind=SpanKind.CLIENT,
         ) as span:
