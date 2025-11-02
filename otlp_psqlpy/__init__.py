@@ -228,7 +228,7 @@ class PSQLPyPGInstrumentor(BaseInstrumentor):
 
         stop = False
         with self._tracer.start_as_current_span(
-            f"CURSOR",
+            "CURSOR",
             kind=SpanKind.CLIENT,
         ) as span:
             if span.is_recording():
