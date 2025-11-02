@@ -17,6 +17,9 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Operating System :: OS Independent",
     "Intended Audience :: Developers",
     "Topic :: System :: Networking",
@@ -29,7 +32,7 @@ keywords = ["psqlpy", "postgres", "async"]
 python = "^3.9"
 opentelemetry-exporter-otlp = "^1.30.0"
 opentelemetry-sdk = "^1.30.0"
-opentelemetry-instrumentation = "^0.51b0"
+opentelemetry-instrumentation = ">=0.51b0,<1"
 psqlpy = "0.11.6"
 
 
