@@ -17,6 +17,9 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Operating System :: OS Independent",
     "Intended Audience :: Developers",
     "Topic :: System :: Networking",
@@ -29,7 +32,7 @@ keywords = ["psqlpy", "postgres", "async"]
 python = "^3.9"
 opentelemetry-exporter-otlp = "^1.30.0"
 opentelemetry-sdk = "^1.30.0"
-opentelemetry-instrumentation = "^0.51b0"
+opentelemetry-instrumentation = ">=0.51b0,<1"
 psqlpy = "0.11.6"
 
 
@@ -98,8 +101,6 @@ lint.ignore = [
     "D401",    # First line should be in imperative mood
     "D104",    # Missing docstring in public package
     "D100",    # Missing docstring in public module
-    "ANN102",  # Missing type annotation for self in method
-    "ANN101",  # Missing type annotation for argument
     "ANN401",  # typing.Any are disallowed in `**kwargs
     "PLR0913", # Too many arguments for function call
     "D106",    # Missing docstring in public nested class
