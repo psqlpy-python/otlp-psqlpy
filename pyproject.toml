@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "otlp-psqlpy"
-version = "0.2.1"
+version = "0.2.2"
 description = ""
 authors = ["chandr-andr (Kiselev Aleksandr) <chandr@chandr.net>"]
 readme = "README.md"
@@ -33,7 +33,7 @@ python = "^3.9"
 opentelemetry-exporter-otlp = "^1.30.0"
 opentelemetry-sdk = "^1.30.0"
 opentelemetry-instrumentation = ">=0.51b0,<1"
-psqlpy = "0.11.6"
+psqlpy = ">=0.11.6"
 
 
 [tool.poetry.group.dev.dependencies]
